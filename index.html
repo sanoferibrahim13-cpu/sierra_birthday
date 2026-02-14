@@ -13,8 +13,6 @@
       --cream:#FFF7E6;
       --card:#ffffff;
       --muted:#5c5c5c;
-      --ok:#19a974;
-      --warn:#d90429;
       --shadow: 0 12px 30px rgba(0,0,0,.18);
       --radius: 22px;
     }
@@ -156,6 +154,19 @@
       font-size: 14px;
       line-height: 1.35;
     }
+    .hostline{
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      background: rgba(18,18,18,.06);
+      border: 1px solid rgba(18,18,18,.10);
+      padding: 8px 10px;
+      border-radius: 14px;
+      font-weight: 900;
+      letter-spacing:.2px;
+      width: fit-content;
+      margin-bottom: 10px;
+    }
     .highlight{
       display:inline-flex;
       gap:8px;
@@ -216,11 +227,8 @@
     .content{
       padding: 14px 14px 18px;
       display:grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr;
       gap: 12px;
-    }
-    @media (max-width: 720px){
-      .content{grid-template-columns: 1fr;}
     }
     .panel{
       border:1px solid rgba(18,18,18,.10);
@@ -244,7 +252,7 @@
       border: 0;
       border-radius: 14px;
       padding: 12px 12px;
-      font-weight: 800;
+      font-weight: 900;
       cursor:pointer;
       box-shadow: 0 10px 18px rgba(0,0,0,.14);
       transition: transform .08s ease, filter .08s ease;
@@ -263,36 +271,13 @@
       color: var(--black);
       border:1px solid rgba(18,18,18,.12);
       box-shadow:none;
-      font-weight:800;
+      font-weight:900;
     }
     .small{
       padding: 10px 12px;
       border-radius: 12px;
-      font-weight: 800;
+      font-weight: 900;
     }
-    .field{
-      display:flex;
-      flex-direction:column;
-      gap:6px;
-      margin-bottom: 10px;
-    }
-    label{
-      font-size: 12px;
-      color: var(--muted);
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing:.4px;
-    }
-    input, textarea, select{
-      width:100%;
-      border:1px solid rgba(18,18,18,.14);
-      border-radius: 14px;
-      padding: 12px 12px;
-      font-size: 15px;
-      outline:none;
-      background:#fff;
-    }
-    textarea{min-height: 82px; resize: vertical;}
     .hint{
       font-size: 12.5px;
       color: var(--muted);
@@ -322,7 +307,7 @@
     .cd span{
       font-size: 12px;
       color: var(--muted);
-      font-weight: 800;
+      font-weight: 900;
       text-transform: uppercase;
       letter-spacing:.3px;
     }
@@ -336,12 +321,13 @@
       padding: 12px 14px;
       border-radius: 14px;
       box-shadow: 0 14px 30px rgba(0,0,0,.22);
-      font-weight: 700;
+      font-weight: 800;
       font-size: 14px;
       opacity: 0;
       pointer-events: none;
       transition: opacity .18s ease;
       max-width: min(560px, 92vw);
+      z-index: 9999;
     }
     .toast.show{opacity:1}
     .footer{
@@ -355,10 +341,22 @@
       height:1px; background: rgba(18,18,18,.10);
       margin: 12px 0;
     }
+
+    /* Confetti canvas */
+    canvas#confetti{
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9998;
+    }
   </style>
 </head>
 
 <body>
+  <canvas id="confetti"></canvas>
+
   <div class="wrap">
     <div class="topbar">
       <div class="brand">
@@ -367,13 +365,15 @@
         <span style="display:inline-flex;width:10px;height:10px;border-radius:999px;background:var(--black);box-shadow:0 0 0 4px rgba(18,18,18,.10)"></span>
         <span>Birthday E-Invite</span>
       </div>
-      <div class="pill" id="statusPill">🎈 Tap RSVP to respond</div>
+      <div class="pill" id="statusPill">🎉 Tap “Pop Confetti” for a surprise!</div>
     </div>
 
     <div class="card">
       <section class="hero">
         <div class="hero-grid">
           <div>
+            <div class="hostline">✨ Sanza Family invites you ✨</div>
+
             <h1 class="title">Sierra turns <span style="color:var(--red)">4</span>! 🎉</h1>
             <p class="subtitle">
               You’re invited to a colourful celebration with a classic red-yellow-black party vibe ✨
@@ -430,68 +430,28 @@
 
       <section class="content">
         <div class="panel">
-          <h2>RSVP</h2>
-          <div class="field">
-            <label for="name">Your name</label>
-            <input id="name" placeholder="Type your name" autocomplete="name" />
-          </div>
-
-          <div class="row" style="margin-bottom:10px">
-            <button class="primary" id="btnYes">✅ Yes, I’m coming</button>
-            <button class="ghost" id="btnMaybe">🤔 Maybe</button>
-            <button class="secondary" id="btnNo">❌ Can’t make it</button>
-          </div>
-
-          <div class="field">
-            <label for="guests">Guests</label>
-            <select id="guests">
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4+</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <label for="note">Message</label>
-            <textarea id="note" placeholder="Any note for Sierra? (optional)"></textarea>
-          </div>
-
-          <div class="row">
-            <button class="ghost small" id="btnCopy">📋 Copy RSVP text</button>
-            <a class="btn ghost small" id="btnWhatsApp" href="#" rel="noopener">💬 Share via WhatsApp</a>
-          </div>
-
-          <p class="hint">This page doesn’t send data to a server — it creates a message you can copy/share.</p>
-        </div>
-
-        <div class="panel">
           <h2>Quick actions</h2>
           <div class="row" style="margin-bottom:10px">
             <a class="btn primary" id="btnMaps" href="#" target="_blank" rel="noopener">📍 Open in Maps</a>
             <button class="btn ghost" id="btnCal">🗓️ Add to Calendar</button>
+            <button class="btn secondary" id="btnConfetti">🎉 Pop Confetti</button>
           </div>
 
           <div class="divider"></div>
 
           <h2>Theme & dress code</h2>
           <p class="subtitle" style="margin:0">
-            Wear **red / yellow / black** and please add a **bow** 🎀 (kids & adults welcome).
+            Wear <strong>red / yellow / black</strong> and please add a <strong>bow</strong> 🎀 (kids & adults welcome).
           </p>
 
           <div class="divider"></div>
 
-          <h2>Party checklist</h2>
-          <div class="row">
-            <label style="text-transform:none; font-weight:700; color:var(--black)">
-              <input type="checkbox" id="chkBow" /> I’ll wear a bow 🎀
-            </label>
-            <label style="text-transform:none; font-weight:700; color:var(--black)">
-              <input type="checkbox" id="chkColors" /> I’ll match the colors ❤️💛🖤
-            </label>
-          </div>
+          <h2>One more thing</h2>
+          <p class="subtitle" style="margin:0">
+            Bring your smiles 😄 and get ready for photos, fun & cake!
+          </p>
 
-          <p class="hint" id="checkHint">Tip: Tick these for a fun little “ready” status in the top bar.</p>
+          <p class="hint">Tip: Tap the confetti button multiple times 😄</p>
         </div>
       </section>
     </div>
@@ -507,7 +467,8 @@
     // ======= Event details (edit here if needed) =======
     const EVENT = {
       title: "Sierra's 4th Birthday",
-      dateISO: "2026-02-22T17:30:00+05:30",  // Set a time; adjust if you want
+      dateISO: "2026-02-22T19:00:00+05:30",
+  // change time if you want
       durationMinutes: 150,
       locationText: "F-502, Lancor Lumina, Guduvacnchery",
       mapsQuery: "F-502, Lancor Lumina, Guduvacnchery",
@@ -547,71 +508,8 @@
     tickCountdown();
     setInterval(tickCountdown, 1000);
 
-    // ======= RSVP text builder =======
-    function buildRSVP(status){
-      const name = ($("name").value || "Guest").trim();
-      const guests = $("guests").value;
-      const note = ($("note").value || "").trim();
-
-      let msg =
-`RSVP: ${status}
-Name: ${name}
-Guests: ${guests}
-Event: ${EVENT.title}
-Date: 22 February
-Venue: ${EVENT.locationText}
-Dress code: ${EVENT.dressCode}
-Note: ${EVENT.note}`;
-
-      if (note) msg += `\nMessage: ${note}`;
-      return msg;
-    }
-
-    function updateTopPill(){
-      const bow = $("chkBow").checked;
-      const colors = $("chkColors").checked;
-      const pill = $("statusPill");
-      if (bow && colors) pill.textContent = "🎀✅ Ready for the party!";
-      else if (bow || colors) pill.textContent = "✨ Almost ready — one more!";
-      else pill.textContent = "🎈 Tap RSVP to respond";
-    }
-    $("chkBow").addEventListener("change", updateTopPill);
-    $("chkColors").addEventListener("change", updateTopPill);
-
-    // ======= Buttons =======
-    $("btnYes").onclick = () => { toast("RSVP set: YES"); window.__rsvp = "Yes"; };
-    $("btnMaybe").onclick = () => { toast("RSVP set: MAYBE"); window.__rsvp = "Maybe"; };
-    $("btnNo").onclick = () => { toast("RSVP set: NO"); window.__rsvp = "No"; };
-
-    $("btnCopy").onclick = async () => {
-      const status = window.__rsvp || "Yes";
-      const text = buildRSVP(status);
-      try{
-        await navigator.clipboard.writeText(text);
-        toast("Copied RSVP text!");
-      }catch(e){
-        // Fallback
-        const ta = document.createElement("textarea");
-        ta.value = text;
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand("copy");
-        ta.remove();
-        toast("Copied RSVP text!");
-      }
-    };
-
-    $("btnWhatsApp").onclick = (e) => {
-      e.preventDefault();
-      const status = window.__rsvp || "Yes";
-      const text = buildRSVP(status);
-      const url = "https://wa.me/?text=" + encodeURIComponent(text);
-      window.open(url, "_blank", "noopener,noreferrer");
-    };
-
     // ======= Add to Calendar (.ics) =======
     function toICSDate(dt){
-      // dt is Date in local time; convert to UTC format: YYYYMMDDTHHMMSSZ
       const pad = (n)=> String(n).padStart(2,"0");
       return dt.getUTCFullYear()
         + pad(dt.getUTCMonth()+1)
@@ -626,6 +524,7 @@ Note: ${EVENT.note}`;
       const start = new Date(EVENT.dateISO);
       const end = new Date(start.getTime() + EVENT.durationMinutes*60*1000);
 
+      const uid = (crypto.randomUUID ? crypto.randomUUID() : (Date.now()+"@sierra-invite"));
       const ics =
 `BEGIN:VCALENDAR
 VERSION:2.0
@@ -633,7 +532,7 @@ PRODID:-//EInvite//Sierra//EN
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
 BEGIN:VEVENT
-UID:${crypto.randomUUID ? crypto.randomUUID() : (Date.now()+"@sierra-invite")}
+UID:${uid}
 DTSTAMP:${toICSDate(new Date())}
 DTSTART:${toICSDate(start)}
 DTEND:${toICSDate(end)}
@@ -651,6 +550,87 @@ END:VCALENDAR`;
       a.click();
       a.remove();
       toast("Calendar file downloaded!");
+    };
+
+    // ======= Confetti (lightweight, no external libs) =======
+    const canvas = $("confetti");
+    const ctx = canvas.getContext("2d");
+    let W=0, H=0;
+    function resize(){
+      W = canvas.width = Math.floor(window.innerWidth * devicePixelRatio);
+      H = canvas.height = Math.floor(window.innerHeight * devicePixelRatio);
+      canvas.style.width = window.innerWidth + "px";
+      canvas.style.height = window.innerHeight + "px";
+      ctx.setTransform(1,0,0,1,0,0);
+      ctx.scale(devicePixelRatio, devicePixelRatio);
+    }
+    window.addEventListener("resize", resize, {passive:true});
+    resize();
+
+    const colors = ["#E21B23","#FFD43B","#121212","#ffffff","#2D7FF9","#8D4CFF"];
+    let confetti = [];
+    let anim = null;
+
+    function burst(){
+      const count = 130;
+      const x = window.innerWidth * (0.25 + Math.random()*0.5);
+      const y = window.innerHeight * (0.20 + Math.random()*0.25);
+
+      for(let i=0;i<count;i++){
+        confetti.push({
+          x, y,
+          vx: (Math.random()-0.5)*10,
+          vy: - (6 + Math.random()*10),
+          g: 0.25 + Math.random()*0.18,
+          r: 2 + Math.random()*4,
+          w: 6 + Math.random()*8,
+          h: 6 + Math.random()*10,
+          rot: Math.random()*Math.PI,
+          vr: (Math.random()-0.5)*0.25,
+          color: colors[Math.floor(Math.random()*colors.length)],
+          life: 110 + Math.floor(Math.random()*60),
+        });
+      }
+      if(!anim) animate();
+    }
+
+    function animate(){
+      anim = requestAnimationFrame(animate);
+      ctx.clearRect(0,0, window.innerWidth, window.innerHeight);
+
+      for(let i=confetti.length-1;i>=0;i--){
+        const p = confetti[i];
+        p.life--;
+        p.vy += p.g;
+        p.x += p.vx;
+        p.y += p.vy;
+        p.rot += p.vr;
+
+        // Draw rectangle confetti
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = Math.max(0, Math.min(1, p.life/80));
+        ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+        ctx.restore();
+
+        // Remove if dead/out of view
+        if(p.life <= 0 || p.y > window.innerHeight + 40){
+          confetti.splice(i,1);
+        }
+      }
+
+      if(confetti.length === 0){
+        cancelAnimationFrame(anim);
+        anim = null;
+        ctx.clearRect(0,0, window.innerWidth, window.innerHeight);
+      }
+    }
+
+    $("btnConfetti").onclick = () => {
+      burst();
+      toast("🎉 Yay! Confetti!");
     };
   </script>
 </body>
