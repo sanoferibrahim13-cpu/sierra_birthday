@@ -1,0 +1,657 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sierra turns 4 🎉</title>
+  <meta name="description" content="Sierra's 4th Birthday Invitation" />
+  <style>
+    :root{
+      --red:#E21B23;
+      --yellow:#FFD43B;
+      --black:#121212;
+      --cream:#FFF7E6;
+      --card:#ffffff;
+      --muted:#5c5c5c;
+      --ok:#19a974;
+      --warn:#d90429;
+      --shadow: 0 12px 30px rgba(0,0,0,.18);
+      --radius: 22px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+      background:
+        radial-gradient(900px 520px at 20% -10%, rgba(255,212,59,.55), transparent 60%),
+        radial-gradient(900px 520px at 90% 10%, rgba(226,27,35,.35), transparent 60%),
+        radial-gradient(900px 520px at 50% 110%, rgba(18,18,18,.22), transparent 60%),
+        linear-gradient(180deg, var(--cream), #fff);
+      color: var(--black);
+      min-height: 100vh;
+      display:flex;
+      justify-content:center;
+    }
+    .wrap{
+      width:min(880px, 100%);
+      padding: 18px 14px 40px;
+    }
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin: 4px 4px 12px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:800;
+      letter-spacing:.2px;
+    }
+    .pill{
+      background: rgba(18,18,18,.06);
+      border:1px solid rgba(18,18,18,.08);
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      color: var(--muted);
+      display:flex;
+      align-items:center;
+      gap:8px;
+      white-space:nowrap;
+    }
+    .card{
+      background: var(--card);
+      border: 1px solid rgba(18,18,18,.08);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+      overflow:hidden;
+    }
+    .hero{
+      position:relative;
+      padding: 18px 16px 16px;
+      background:
+        radial-gradient(700px 420px at 30% 10%, rgba(255,212,59,.85), transparent 55%),
+        radial-gradient(700px 420px at 70% 0%, rgba(226,27,35,.55), transparent 55%),
+        linear-gradient(135deg, rgba(18,18,18,.08), rgba(18,18,18,0));
+    }
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.3fr .9fr;
+      gap: 14px;
+      align-items:center;
+    }
+    @media (max-width: 720px){
+      .hero-grid{grid-template-columns: 1fr; gap: 10px;}
+    }
+
+    /* Original “ears + bow” emblem (no copyrighted character art) */
+    .emblem{
+      width: 170px;
+      max-width: 48vw;
+      aspect-ratio: 1/1;
+      position:relative;
+      margin-left:auto;
+      margin-right:auto;
+      filter: drop-shadow(0 10px 16px rgba(0,0,0,.18));
+    }
+    .ear, .head{
+      position:absolute;
+      background: var(--black);
+      border-radius: 999px;
+    }
+    .head{ width: 95px; height: 95px; left: 50%; top: 56%; transform: translate(-50%,-50%); }
+    .ear.left{ width: 62px; height: 62px; left: 18%; top: 18%; }
+    .ear.right{ width: 62px; height: 62px; right: 18%; top: 18%; }
+
+    .bow{
+      position:absolute;
+      left: 50%;
+      top: 46%;
+      transform: translate(-50%,-50%);
+      width: 88px;
+      height: 54px;
+    }
+    .bow:before, .bow:after{
+      content:"";
+      position:absolute;
+      top:0;
+      width: 42px;
+      height: 42px;
+      background: var(--red);
+      border-radius: 14px 22px 22px 14px;
+      transform: rotate(14deg);
+      box-shadow: inset 0 0 0 4px rgba(255,255,255,.10);
+    }
+    .bow:before{ left:0; }
+    .bow:after{
+      right:0;
+      border-radius: 22px 14px 14px 22px;
+      transform: rotate(-14deg);
+    }
+    .knot{
+      position:absolute;
+      left:50%;
+      top: 19px;
+      transform: translateX(-50%);
+      width: 18px;
+      height: 18px;
+      background: var(--yellow);
+      border-radius: 999px;
+      box-shadow: 0 6px 0 rgba(0,0,0,.10), inset 0 0 0 3px rgba(0,0,0,.12);
+    }
+
+    .title{
+      font-size: clamp(26px, 6vw, 44px);
+      margin: 0 0 6px;
+      line-height: 1.05;
+      font-weight: 900;
+      letter-spacing: -0.6px;
+    }
+    .subtitle{
+      margin:0 0 10px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.35;
+    }
+    .highlight{
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      background: rgba(255,212,59,.38);
+      border: 1px solid rgba(18,18,18,.08);
+      padding: 8px 10px;
+      border-radius: 14px;
+      font-weight: 700;
+      width: fit-content;
+      margin-top: 8px;
+    }
+    .badge-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top: 12px;
+    }
+    .badge{
+      border-radius: 14px;
+      padding: 10px 12px;
+      border: 1px solid rgba(18,18,18,.10);
+      background: rgba(255,255,255,.75);
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      min-width: 210px;
+      flex: 1 1 210px;
+    }
+    .dot{
+      width: 12px; height: 12px;
+      border-radius: 999px;
+      margin-top: 4px;
+      background: var(--red);
+      box-shadow: 0 0 0 4px rgba(226,27,35,.12);
+    }
+    .dot.yellow{
+      background: var(--yellow);
+      box-shadow: 0 0 0 4px rgba(255,212,59,.20);
+    }
+    .dot.black{
+      background: var(--black);
+      box-shadow: 0 0 0 4px rgba(18,18,18,.10);
+    }
+    .badge h3{
+      margin:0 0 2px;
+      font-size: 13px;
+      letter-spacing:.2px;
+      text-transform: uppercase;
+    }
+    .badge p{
+      margin:0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .content{
+      padding: 14px 14px 18px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    @media (max-width: 720px){
+      .content{grid-template-columns: 1fr;}
+    }
+    .panel{
+      border:1px solid rgba(18,18,18,.10);
+      border-radius: 18px;
+      padding: 12px;
+      background: rgba(255,255,255,.9);
+    }
+    .panel h2{
+      margin:0 0 10px;
+      font-size: 16px;
+      letter-spacing:-.2px;
+    }
+    .row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    button, .btn{
+      appearance:none;
+      border: 0;
+      border-radius: 14px;
+      padding: 12px 12px;
+      font-weight: 800;
+      cursor:pointer;
+      box-shadow: 0 10px 18px rgba(0,0,0,.14);
+      transition: transform .08s ease, filter .08s ease;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      user-select:none;
+    }
+    button:active, .btn:active{transform: translateY(1px)}
+    .primary{background: var(--red); color: #fff;}
+    .secondary{background: var(--black); color:#fff;}
+    .ghost{
+      background: rgba(18,18,18,.06);
+      color: var(--black);
+      border:1px solid rgba(18,18,18,.12);
+      box-shadow:none;
+      font-weight:800;
+    }
+    .small{
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-weight: 800;
+    }
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      margin-bottom: 10px;
+    }
+    label{
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing:.4px;
+    }
+    input, textarea, select{
+      width:100%;
+      border:1px solid rgba(18,18,18,.14);
+      border-radius: 14px;
+      padding: 12px 12px;
+      font-size: 15px;
+      outline:none;
+      background:#fff;
+    }
+    textarea{min-height: 82px; resize: vertical;}
+    .hint{
+      font-size: 12.5px;
+      color: var(--muted);
+      margin: 8px 0 0;
+      line-height: 1.35;
+    }
+    .countdown{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top: 10px;
+    }
+    .cd{
+      flex:1 1 90px;
+      min-width: 90px;
+      background: rgba(255,212,59,.22);
+      border:1px solid rgba(18,18,18,.10);
+      border-radius: 16px;
+      padding: 10px 10px;
+      text-align:center;
+    }
+    .cd strong{
+      font-size: 20px;
+      display:block;
+      line-height:1.1;
+    }
+    .cd span{
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing:.3px;
+    }
+    .toast{
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 16px;
+      background: rgba(18,18,18,.92);
+      color:#fff;
+      padding: 12px 14px;
+      border-radius: 14px;
+      box-shadow: 0 14px 30px rgba(0,0,0,.22);
+      font-weight: 700;
+      font-size: 14px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .18s ease;
+      max-width: min(560px, 92vw);
+    }
+    .toast.show{opacity:1}
+    .footer{
+      margin-top: 12px;
+      padding: 12px 4px 0;
+      color: rgba(18,18,18,.52);
+      font-size: 12px;
+      text-align:center;
+    }
+    .divider{
+      height:1px; background: rgba(18,18,18,.10);
+      margin: 12px 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <span style="display:inline-flex;width:10px;height:10px;border-radius:999px;background:var(--red);box-shadow:0 0 0 4px rgba(226,27,35,.12)"></span>
+        <span style="display:inline-flex;width:10px;height:10px;border-radius:999px;background:var(--yellow);box-shadow:0 0 0 4px rgba(255,212,59,.18)"></span>
+        <span style="display:inline-flex;width:10px;height:10px;border-radius:999px;background:var(--black);box-shadow:0 0 0 4px rgba(18,18,18,.10)"></span>
+        <span>Birthday E-Invite</span>
+      </div>
+      <div class="pill" id="statusPill">🎈 Tap RSVP to respond</div>
+    </div>
+
+    <div class="card">
+      <section class="hero">
+        <div class="hero-grid">
+          <div>
+            <h1 class="title">Sierra turns <span style="color:var(--red)">4</span>! 🎉</h1>
+            <p class="subtitle">
+              You’re invited to a colourful celebration with a classic red-yellow-black party vibe ✨
+            </p>
+
+            <div class="highlight">🧡 Show up in Mickey & Friends colors — and don’t forget to add a bow to your outfit!</div>
+
+            <div class="badge-row">
+              <div class="badge">
+                <div class="dot"></div>
+                <div>
+                  <h3>Date</h3>
+                  <p><strong>22 February</strong></p>
+                </div>
+              </div>
+
+              <div class="badge">
+                <div class="dot yellow"></div>
+                <div>
+                  <h3>Venue</h3>
+                  <p>F-502, Lancor Lumina,<br/>Guduvacnchery</p>
+                </div>
+              </div>
+
+              <div class="badge">
+                <div class="dot black"></div>
+                <div>
+                  <h3>Note</h3>
+                  <p>Inshallah, Iftar will be arranged at home.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="countdown" aria-label="Countdown">
+              <div class="cd"><strong id="d">--</strong><span>Days</span></div>
+              <div class="cd"><strong id="h">--</strong><span>Hours</span></div>
+              <div class="cd"><strong id="m">--</strong><span>Mins</span></div>
+              <div class="cd"><strong id="s">--</strong><span>Secs</span></div>
+            </div>
+          </div>
+
+          <div style="display:flex; justify-content:center;">
+            <div class="emblem" aria-label="Cute ears with bow illustration">
+              <div class="ear left"></div>
+              <div class="ear right"></div>
+              <div class="head"></div>
+              <div class="bow" aria-hidden="true">
+                <div class="knot"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="content">
+        <div class="panel">
+          <h2>RSVP</h2>
+          <div class="field">
+            <label for="name">Your name</label>
+            <input id="name" placeholder="Type your name" autocomplete="name" />
+          </div>
+
+          <div class="row" style="margin-bottom:10px">
+            <button class="primary" id="btnYes">✅ Yes, I’m coming</button>
+            <button class="ghost" id="btnMaybe">🤔 Maybe</button>
+            <button class="secondary" id="btnNo">❌ Can’t make it</button>
+          </div>
+
+          <div class="field">
+            <label for="guests">Guests</label>
+            <select id="guests">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4+</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="note">Message</label>
+            <textarea id="note" placeholder="Any note for Sierra? (optional)"></textarea>
+          </div>
+
+          <div class="row">
+            <button class="ghost small" id="btnCopy">📋 Copy RSVP text</button>
+            <a class="btn ghost small" id="btnWhatsApp" href="#" rel="noopener">💬 Share via WhatsApp</a>
+          </div>
+
+          <p class="hint">This page doesn’t send data to a server — it creates a message you can copy/share.</p>
+        </div>
+
+        <div class="panel">
+          <h2>Quick actions</h2>
+          <div class="row" style="margin-bottom:10px">
+            <a class="btn primary" id="btnMaps" href="#" target="_blank" rel="noopener">📍 Open in Maps</a>
+            <button class="btn ghost" id="btnCal">🗓️ Add to Calendar</button>
+          </div>
+
+          <div class="divider"></div>
+
+          <h2>Theme & dress code</h2>
+          <p class="subtitle" style="margin:0">
+            Wear **red / yellow / black** and please add a **bow** 🎀 (kids & adults welcome).
+          </p>
+
+          <div class="divider"></div>
+
+          <h2>Party checklist</h2>
+          <div class="row">
+            <label style="text-transform:none; font-weight:700; color:var(--black)">
+              <input type="checkbox" id="chkBow" /> I’ll wear a bow 🎀
+            </label>
+            <label style="text-transform:none; font-weight:700; color:var(--black)">
+              <input type="checkbox" id="chkColors" /> I’ll match the colors ❤️💛🖤
+            </label>
+          </div>
+
+          <p class="hint" id="checkHint">Tip: Tick these for a fun little “ready” status in the top bar.</p>
+        </div>
+      </section>
+    </div>
+
+    <div class="footer">
+      Made with ❤️ for Sierra • Share this page link with family & friends
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ======= Event details (edit here if needed) =======
+    const EVENT = {
+      title: "Sierra's 4th Birthday",
+      dateISO: "2026-02-22T17:30:00+05:30",  // Set a time; adjust if you want
+      durationMinutes: 150,
+      locationText: "F-502, Lancor Lumina, Guduvacnchery",
+      mapsQuery: "F-502, Lancor Lumina, Guduvacnchery",
+      dressCode: "Red/Yellow/Black + Bow",
+      note: "Inshallah, Iftar will be arranged at home."
+    };
+
+    // ======= Helpers =======
+    const $ = (id) => document.getElementById(id);
+    const toast = (msg) => {
+      const t = $("toast");
+      t.textContent = msg;
+      t.classList.add("show");
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => t.classList.remove("show"), 2200);
+    };
+
+    // ======= Maps link =======
+    $("btnMaps").href = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(EVENT.mapsQuery);
+
+    // ======= Countdown =======
+    function tickCountdown(){
+      const target = new Date(EVENT.dateISO).getTime();
+      const now = Date.now();
+      let diff = Math.max(0, target - now);
+
+      const d = Math.floor(diff / (1000*60*60*24)); diff -= d*(1000*60*60*24);
+      const h = Math.floor(diff / (1000*60*60)); diff -= h*(1000*60*60);
+      const m = Math.floor(diff / (1000*60)); diff -= m*(1000*60);
+      const s = Math.floor(diff / 1000);
+
+      $("d").textContent = String(d);
+      $("h").textContent = String(h).padStart(2,"0");
+      $("m").textContent = String(m).padStart(2,"0");
+      $("s").textContent = String(s).padStart(2,"0");
+    }
+    tickCountdown();
+    setInterval(tickCountdown, 1000);
+
+    // ======= RSVP text builder =======
+    function buildRSVP(status){
+      const name = ($("name").value || "Guest").trim();
+      const guests = $("guests").value;
+      const note = ($("note").value || "").trim();
+
+      let msg =
+`RSVP: ${status}
+Name: ${name}
+Guests: ${guests}
+Event: ${EVENT.title}
+Date: 22 February
+Venue: ${EVENT.locationText}
+Dress code: ${EVENT.dressCode}
+Note: ${EVENT.note}`;
+
+      if (note) msg += `\nMessage: ${note}`;
+      return msg;
+    }
+
+    function updateTopPill(){
+      const bow = $("chkBow").checked;
+      const colors = $("chkColors").checked;
+      const pill = $("statusPill");
+      if (bow && colors) pill.textContent = "🎀✅ Ready for the party!";
+      else if (bow || colors) pill.textContent = "✨ Almost ready — one more!";
+      else pill.textContent = "🎈 Tap RSVP to respond";
+    }
+    $("chkBow").addEventListener("change", updateTopPill);
+    $("chkColors").addEventListener("change", updateTopPill);
+
+    // ======= Buttons =======
+    $("btnYes").onclick = () => { toast("RSVP set: YES"); window.__rsvp = "Yes"; };
+    $("btnMaybe").onclick = () => { toast("RSVP set: MAYBE"); window.__rsvp = "Maybe"; };
+    $("btnNo").onclick = () => { toast("RSVP set: NO"); window.__rsvp = "No"; };
+
+    $("btnCopy").onclick = async () => {
+      const status = window.__rsvp || "Yes";
+      const text = buildRSVP(status);
+      try{
+        await navigator.clipboard.writeText(text);
+        toast("Copied RSVP text!");
+      }catch(e){
+        // Fallback
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        ta.remove();
+        toast("Copied RSVP text!");
+      }
+    };
+
+    $("btnWhatsApp").onclick = (e) => {
+      e.preventDefault();
+      const status = window.__rsvp || "Yes";
+      const text = buildRSVP(status);
+      const url = "https://wa.me/?text=" + encodeURIComponent(text);
+      window.open(url, "_blank", "noopener,noreferrer");
+    };
+
+    // ======= Add to Calendar (.ics) =======
+    function toICSDate(dt){
+      // dt is Date in local time; convert to UTC format: YYYYMMDDTHHMMSSZ
+      const pad = (n)=> String(n).padStart(2,"0");
+      return dt.getUTCFullYear()
+        + pad(dt.getUTCMonth()+1)
+        + pad(dt.getUTCDate())
+        + "T"
+        + pad(dt.getUTCHours())
+        + pad(dt.getUTCMinutes())
+        + pad(dt.getUTCSeconds())
+        + "Z";
+    }
+    $("btnCal").onclick = () => {
+      const start = new Date(EVENT.dateISO);
+      const end = new Date(start.getTime() + EVENT.durationMinutes*60*1000);
+
+      const ics =
+`BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//EInvite//Sierra//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:${crypto.randomUUID ? crypto.randomUUID() : (Date.now()+"@sierra-invite")}
+DTSTAMP:${toICSDate(new Date())}
+DTSTART:${toICSDate(start)}
+DTEND:${toICSDate(end)}
+SUMMARY:${EVENT.title}
+LOCATION:${EVENT.locationText}
+DESCRIPTION:Dress code: ${EVENT.dressCode}\\n${EVENT.note}
+END:VEVENT
+END:VCALENDAR`;
+
+      const blob = new Blob([ics], {type:"text/calendar;charset=utf-8"});
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "Sierra-4th-Birthday.ics";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      toast("Calendar file downloaded!");
+    };
+  </script>
+</body>
+</html>
