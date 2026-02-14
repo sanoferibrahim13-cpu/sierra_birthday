@@ -351,6 +351,58 @@
       pointer-events: none;
       z-index: 9998;
     }
+
+    /* --- Mini game: Spell SIERRA --- */
+    .game-wrap{ margin-top: 12px; }
+    .slots{
+      display:flex; gap:8px; flex-wrap:wrap;
+      justify-content:center;
+      padding: 10px;
+      background: rgba(255,212,59,.14);
+      border:1px solid rgba(18,18,18,.10);
+      border-radius: 16px;
+    }
+    .slot{
+      width: 44px; height: 54px;
+      border-radius: 14px;
+      border: 2px dashed rgba(18,18,18,.25);
+      background: rgba(255,255,255,.8);
+      display:flex; align-items:center; justify-content:center;
+      font-weight: 900;
+      font-size: 18px;
+    }
+    .slot.filled{
+      border-style: solid;
+      border-color: rgba(18,18,18,.10);
+      background: #fff;
+    }
+    .tiles{
+      display:flex; gap:10px; flex-wrap:wrap;
+      justify-content:center;
+      margin-top: 10px;
+    }
+    .tile{
+      width: 52px; height: 52px;
+      border-radius: 16px;
+      border:1px solid rgba(18,18,18,.12);
+      background: rgba(255,255,255,.95);
+      font-weight: 950;
+      font-size: 20px;
+      display:flex; align-items:center; justify-content:center;
+      box-shadow: 0 10px 18px rgba(0,0,0,.10);
+      touch-action: none;
+    }
+    .tile:active{ transform: translateY(1px); }
+    .game-actions{
+      display:flex; gap:10px; flex-wrap:wrap;
+      justify-content:center;
+      margin-top: 10px;
+    }
+    .game-msg{
+      margin: 10px 0 0;
+      text-align:center;
+      font-weight: 900;
+    }
   </style>
 </head>
 
@@ -385,8 +437,8 @@
               <div class="badge">
                 <div class="dot"></div>
                 <div>
-                  <h3>Date</h3>
-                  <p><strong>22 February</strong></p>
+                  <h3>Date & Time</h3>
+                  <p><strong>22 February • 7:00 PM</strong></p>
                 </div>
               </div>
 
@@ -446,12 +498,36 @@
 
           <div class="divider"></div>
 
-          <h2>One more thing</h2>
-          <p class="subtitle" style="margin:0">
-            Bring your smiles 😄 and get ready for photos, fun & cake!
+          <h2>Dress Ready?</h2>
+          <div class="row">
+            <label style="text-transform:none; font-weight:800; color:var(--black)">
+              <input type="checkbox" id="chkBow" /> I’ll wear a bow 🎀
+            </label>
+            <label style="text-transform:none; font-weight:800; color:var(--black)">
+              <input type="checkbox" id="chkColors" /> I’ll match the colors ❤️💛🖤
+            </label>
+          </div>
+
+          <div class="divider"></div>
+
+          <h2>Mini Game 🎮</h2>
+          <p class="subtitle" style="margin:0 0 8px">
+            Drag or tap letters to spell <strong>SIERRA</strong>.
           </p>
 
-          <p class="hint">Tip: Tap the confetti button multiple times 😄</p>
+          <div class="game-wrap">
+            <div class="slots" id="slots" aria-label="S I E R R A slots"></div>
+            <div class="tiles" id="tiles" aria-label="Letter tiles"></div>
+
+            <div class="game-actions">
+              <button class="btn ghost small" id="btnShuffle">🔀 Shuffle</button>
+              <button class="btn ghost small" id="btnResetGame">↩️ Reset</button>
+            </div>
+
+            <div class="game-msg" id="gameMsg"></div>
+          </div>
+
+          <p class="hint">Tip: Tap a filled slot to remove a letter. Completing the name triggers confetti 🎉</p>
         </div>
       </section>
     </div>
@@ -467,8 +543,7 @@
     // ======= Event details (edit here if needed) =======
     const EVENT = {
       title: "Sierra's 4th Birthday",
-      dateISO: "2026-02-22T19:00:00+05:30",
-  // change time if you want
+      dateISO: "2026-02-22T19:00:00+05:30",  // 7:00 PM IST
       durationMinutes: 150,
       locationText: "F-502, Lancor Lumina, Guduvacnchery",
       mapsQuery: "F-502, Lancor Lumina, Guduvacnchery",
@@ -507,6 +582,23 @@
     }
     tickCountdown();
     setInterval(tickCountdown, 1000);
+
+    // ======= Dress checkbox pill status =======
+    function updateTopPill(){
+      const bow = $("chkBow")?.checked;
+      const colors = $("chkColors")?.checked;
+      const pill = $("statusPill");
+      if (!pill) return;
+
+      if (bow && colors) pill.textContent = "🎀✅ Ready for the party!";
+      else if (bow || colors) pill.textContent = "✨ Almost ready — one more!";
+      else pill.textContent = "🎉 Tap “Pop Confetti” for a surprise!";
+    }
+    document.addEventListener("change", (e) => {
+      if (e.target && (e.target.id === "chkBow" || e.target.id === "chkColors")) {
+        updateTopPill();
+      }
+    });
 
     // ======= Add to Calendar (.ics) =======
     function toICSDate(dt){
@@ -555,10 +647,9 @@ END:VCALENDAR`;
     // ======= Confetti (lightweight, no external libs) =======
     const canvas = $("confetti");
     const ctx = canvas.getContext("2d");
-    let W=0, H=0;
     function resize(){
-      W = canvas.width = Math.floor(window.innerWidth * devicePixelRatio);
-      H = canvas.height = Math.floor(window.innerHeight * devicePixelRatio);
+      canvas.width = Math.floor(window.innerWidth * devicePixelRatio);
+      canvas.height = Math.floor(window.innerHeight * devicePixelRatio);
       canvas.style.width = window.innerWidth + "px";
       canvas.style.height = window.innerHeight + "px";
       ctx.setTransform(1,0,0,1,0,0);
@@ -582,7 +673,6 @@ END:VCALENDAR`;
           vx: (Math.random()-0.5)*10,
           vy: - (6 + Math.random()*10),
           g: 0.25 + Math.random()*0.18,
-          r: 2 + Math.random()*4,
           w: 6 + Math.random()*8,
           h: 6 + Math.random()*10,
           rot: Math.random()*Math.PI,
@@ -606,7 +696,6 @@ END:VCALENDAR`;
         p.y += p.vy;
         p.rot += p.vr;
 
-        // Draw rectangle confetti
         ctx.save();
         ctx.translate(p.x, p.y);
         ctx.rotate(p.rot);
@@ -615,7 +704,6 @@ END:VCALENDAR`;
         ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
         ctx.restore();
 
-        // Remove if dead/out of view
         if(p.life <= 0 || p.y > window.innerHeight + 40){
           confetti.splice(i,1);
         }
@@ -632,6 +720,110 @@ END:VCALENDAR`;
       burst();
       toast("🎉 Yay! Confetti!");
     };
+
+    // ======= Mini game: Spell SIERRA =======
+    const TARGET = "SIERRA";
+    let filled = Array(TARGET.length).fill("");
+
+    function shuffleArray(arr){
+      for(let i=arr.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function makeTile(letter){
+      const t = document.createElement("div");
+      t.className = "tile";
+      t.textContent = letter;
+      t.draggable = true;
+
+      t.addEventListener("dragstart", (e) => {
+        e.dataTransfer.setData("text/plain", letter);
+      });
+
+      // Tap to auto-place into next empty slot
+      t.addEventListener("click", () => {
+        const idx = filled.findIndex(x => !x);
+        if(idx !== -1){
+          placeLetter(idx, letter, t);
+        } else {
+          toast("All slots filled — tap a slot to remove.");
+        }
+      });
+
+      return t;
+    }
+
+    function placeLetter(slotIndex, letter, tileEl){
+      // if slot already filled, return it to tiles
+      if(filled[slotIndex]){
+        $("tiles").appendChild(makeTile(filled[slotIndex]));
+      }
+      filled[slotIndex] = letter;
+
+      // remove one matching tile from tiles list
+      if(tileEl){
+        tileEl.remove();
+      } else {
+        const tiles = Array.from($("tiles").querySelectorAll(".tile"));
+        const found = tiles.find(el => el.textContent === letter);
+        if(found) found.remove();
+      }
+      renderGame();
+    }
+
+    function renderGame(){
+      const slots = $("slots");
+      const msg = $("gameMsg");
+
+      slots.innerHTML = "";
+      for(let i=0;i<TARGET.length;i++){
+        const s = document.createElement("div");
+        s.className = "slot" + (filled[i] ? " filled" : "");
+        s.textContent = filled[i] || "";
+        s.addEventListener("click", () => {
+          if(filled[i]){
+            const letter = filled[i];
+            filled[i] = "";
+            $("tiles").appendChild(makeTile(letter));
+            renderGame();
+          }
+        });
+        s.addEventListener("dragover", (e) => e.preventDefault());
+        s.addEventListener("drop", (e) => {
+          e.preventDefault();
+          const letter = e.dataTransfer.getData("text/plain");
+          placeLetter(i, letter);
+        });
+        slots.appendChild(s);
+      }
+
+      if(filled.join("") === TARGET){
+        msg.textContent = "🎉 You made SIERRA!";
+        toast("🎉 You made SIERRA!");
+        burst(); setTimeout(burst, 300); setTimeout(burst, 650);
+      } else {
+        msg.textContent = "";
+      }
+    }
+
+    function resetGame(shuffle=true){
+      filled = Array(TARGET.length).fill("");
+      $("tiles").innerHTML = "";
+      const letters = TARGET.split("");
+      const bag = shuffle ? shuffleArray([...letters]) : letters;
+      bag.forEach(ch => $("tiles").appendChild(makeTile(ch)));
+      renderGame();
+    }
+
+    $("btnShuffle").addEventListener("click", () => resetGame(true));
+    $("btnResetGame").addEventListener("click", () => resetGame(false));
+
+    // Init
+    resetGame(true);
+    updateTopPill();
   </script>
 </body>
 </html>
